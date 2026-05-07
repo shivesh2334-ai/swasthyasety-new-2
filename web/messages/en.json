@@ -1,0 +1,71 @@
+{
+  "metadata": {
+    "title": "SwasthyaSetu - Your Health Bridge",
+    "description": "Connect with verified doctors online. NMC compliant teleconsultation with ABHA integration."
+  },
+  "navigation": {
+    "home": "Home",
+    "consultations": "My Consultations",
+    "doctors": "Find Doctors",
+    "records": "Health Records",
+    "profile": "Profile",
+    "login": "Login",
+    "logout": "Logout",
+    "switchLanguage": "हिंदी में देखें"
+  },
+  "home": {
+    "hero": {
+      "title": "Healthcare at Your Fingertips",
+      "subtitle": "Connect with 5000+ verified doctors. Video consultations, digital prescriptions, and ABHA-linked health records.",
+      "ctaPrimary": "Consult Now",
+      "ctaSecondary": "How it Works"
+    },
+    "features": {
+      "verifiedDoctors": {
+        "title": "NMC Verified Doctors",
+        "description": "All doctors verified with National Medical Commission"
+      },
+      "abhaIntegrated": {
+        "title": "ABHA Integrated",
+        "description": "Your health records linked with Ayushman Bharat Health Account"
+      },
+      "secure": {
+        "title": "Secure & Private",
+        "description": "End-to-end encrypted consultations. Your data never leaves India."
+      }
+    }
+  },
+  "consultation": {
+    "title": "Book Consultation",
+    "steps": {
+      "selectSpecialty": "Select Specialty",
+      "chooseDoctor": "Choose Doctor",
+      "confirmBooking": "Confirm Booking"
+    },
+    "warnings": {
+      "emergency": "For medical emergencies, please call 108 or visit nearest hospital. This platform is not for emergency care.",
+      "aiDisclaimer": "AI suggestions are for informational purposes only. Final diagnosis and prescription by registered medical practitioner only."
+    }
+  },
+  "abha": {
+    "title": "Link ABHA ID",
+    "description": "Connect your Ayushman Bharat Health Account for seamless health record management",
+    "benefits": [
+      "Unified health records across providers",
+      "Secure digital sharing with doctors",
+      "Access to government health schemes"
+    ],
+    "linkButton": "Link via ABHA Number",
+    "createButton": "Create New ABHA ID"
+  },
+  "compliance": {
+    "nmcVerified": "NMC Verified Platform",
+    "dataLocalized": "Data stored in India",
+    "hipaaCompliant": "Healthcare data compliant"
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "unauthorized": "Please login to continue",
+    "abhaRequired": "ABHA ID linking required for consultation"
+  }
+}
