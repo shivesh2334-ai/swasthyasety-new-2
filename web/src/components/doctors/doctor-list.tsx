@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Stethoscope, Star, Clock, Languages } from 'lucide-react'
+import { Stethoscope, Clock, Languages } from 'lucide-react'
+import { useSearchParams } from 'next/navigation'
 
 interface Doctor {
   id: string
@@ -18,50 +19,35 @@ interface Doctor {
 export function DoctorList() {
   const [doctors, setDoctors] = useState<Doctor[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+  const searchParams = useSearchParams()
 
   useEffect(() => {
-    // Mock data for Phase 1
-    setDoctors([
-      {
-        id: '1',
-        full_name: 'Dr. Rajesh Kumar',
-        specialty: 'General Medicine',
-        qualification: 'MBBS, MD',
-        years_of_experience: 12,
-        consultation_fee: 300,
-        languages_spoken: ['hi', 'en'],
-        is_online: true,
-        nmc_registration_number: '12345'
-      },
-      {
-        id: '2',
-        full_name: 'Dr. Priya Sharma',
-        specialty: 'Cardiology',
-        qualification: 'MBBS, MD, DM',
-        years_of_experience: 15,
-        consultation_fee: 500,
-        languages_spoken: ['hi', 'en', 'mr'],
-        is_online: false,
-        nmc_registration_number: '67890'
-      },
-      {
-        id: '3',
-        full_name: 'Dr. Amit Patel',
-        specialty: 'Pediatrics',
-        qualification: 'MBBS, DCH',
-        years_of_experience: 8,
-        consultation_fee: 400,
-        languages_spoken: ['en', 'gu'],
-        is_online: true,
-        nmc_registration_number: '54321'
-      }
-    ])
-    setLoading(false)
-  }, [])
+    const params = new URLSearchParams()
+    const specialty = searchParams.get('specialty')
+    if (specialty) params.set('specialty', specialty)
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || ''
+    fetch(`${baseUrl}/api/doctors/search?${params.toString()}`)
+      .then(async (response) => {
+        if (!response.ok) throw new Error('Unable to load doctors')
+        return response.json()
+      })
+      .then((data: Doctor[]) => {
+        const query = (searchParams.get('q') || '').toLowerCase()
+        setDoctors(query ? data.filter((doctor) =>
+          doctor.full_name.toLowerCase().includes(query) || doctor.specialty.toLowerCase().includes(query)
+        ) : data)
+      })
+      .catch((reason: Error) => setError(reason.message))
+      .finally(() => setLoading(false))
+  }, [searchParams])
 
   if (loading) {
     return <div className="text-center py-12">Loading doctors...</div>
   }
+
+  if (error) return <div className="rounded-xl bg-red-50 p-6 text-red-700">{error}. Please try again.</div>
+  if (!doctors.length) return <div className="rounded-xl bg-white p-8 text-center text-gray-600">No matching doctors found.</div>
 
   return (
     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
