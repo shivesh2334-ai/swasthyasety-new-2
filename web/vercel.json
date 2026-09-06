@@ -31,7 +31,7 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "https://api-swasthyasetu.vercel.app/api/$1"
+      "destination": "https://api-swasthyasetu-shiveshs-projects-7ed9268d.vercel.app/api/$1"
     }
   ]
 }
