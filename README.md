@@ -69,8 +69,8 @@ SwasthyaSetu is a **bilingual (Hindi/English)** teleconsultation platform built 
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/your-org/swasthyasetu.git
-cd swasthyasetu
+git clone https://github.com/shivesh2334-ai/swasthyasety-new-2.git
+cd swasthyasety-new-2
 ```
 
 ### 2. Setup Web Application
@@ -237,3 +237,5 @@ uvicorn main:app --reload
 ```
 
 **संपर्क**: support@swasthyasetu.in | **वेबसाइट**: https://swasthyasetu.vercel.app
+
+> Development note: the included ABHA, NMC verification and authentication endpoints are sandbox demonstrations until valid ABDM, NMC verification and Supabase credentials are configured. They must not be treated as production identity verification.
