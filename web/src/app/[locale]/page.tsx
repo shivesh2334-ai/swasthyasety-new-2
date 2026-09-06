@@ -23,7 +23,7 @@ export default function HomePage() {
           <div className="grid md:grid-cols-3 gap-6 mt-6">
             <ComplianceBadge icon="shield" label="NMC Verified Platform" />
             <ComplianceBadge icon="database" label="Data Stored in India" />
-            <ComplianceBadge icon="lock" label="HIPAA Compliant" />
+            <ComplianceBadge icon="lock" label="Healthcare Data Safeguards" />
           </div>
         </div>
       </section>
