@@ -19,6 +19,8 @@ export function ABHALinking() {
   const [isLoading, setIsLoading] = useState(false)
   const [otpSent, setOtpSent] = useState(false)
   const [linked, setLinked] = useState(false)
+  const [txnId, setTxnId] = useState('')
+  const [error, setError] = useState('')
 
   const { register, handleSubmit, formState: { errors }, watch } = useForm<ABHAFormData>({
     resolver: zodResolver(abhaSchema),
@@ -26,6 +28,7 @@ export function ABHALinking() {
 
   const onSubmit = async (data: ABHAFormData) => {
     setIsLoading(true)
+    setError('')
     try {
       const response = await fetch('/api/abha/initiate-link', {
         method: 'POST',
@@ -36,11 +39,12 @@ export function ABHALinking() {
         }),
       })
 
-      if (response.ok) {
-        setOtpSent(true)
-      }
+      if (!response.ok) throw new Error('Unable to start ABHA linking')
+      const result = await response.json()
+      setTxnId(result.txn_id)
+      setOtpSent(true)
     } catch (error) {
-      console.error('Error:', error)
+      setError(error instanceof Error ? error.message : 'Something went wrong')
     } finally {
       setIsLoading(false)
     }
@@ -126,14 +130,35 @@ export function ABHALinking() {
           </button>
         </form>
       ) : (
-        <OTPVerification onVerify={() => setLinked(true)} isLoading={isLoading} />
+        <OTPVerification txnId={txnId} onVerify={() => setLinked(true)} />
       )}
+      {error && <p role="alert" className="mt-4 text-sm text-red-600">{error}</p>}
     </div>
   )
 }
 
-function OTPVerification({ onVerify, isLoading }: { onVerify: () => void; isLoading: boolean }) {
+function OTPVerification({ txnId, onVerify }: { txnId: string; onVerify: () => void }) {
   const [otp, setOtp] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
+
+  const verify = async () => {
+    setIsLoading(true)
+    setError('')
+    try {
+      const response = await fetch('/api/abha/verify-link', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ txn_id: txnId, otp }),
+      })
+      if (!response.ok) throw new Error('OTP verification failed')
+      onVerify()
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : 'OTP verification failed')
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   return (
     <div className="space-y-4">
@@ -148,12 +173,13 @@ function OTPVerification({ onVerify, isLoading }: { onVerify: () => void; isLoad
         className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-center text-2xl tracking-widest focus:ring-2 focus:ring-blue-500"
       />
       <button
-        onClick={onVerify}
+        onClick={verify}
         disabled={otp.length !== 6 || isLoading}
         className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50"
       >
         {isLoading ? 'Verifying...' : 'Verify & Link'}
       </button>
+      {error && <p role="alert" className="text-sm text-red-600">{error}</p>}
     </div>
   )
 }
