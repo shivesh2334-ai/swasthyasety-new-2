@@ -29,10 +29,11 @@ app = FastAPI(
 )
 
 # CORS - Allow all origins for development
+allowed_origins = [origin.strip() for origin in os.getenv("ALLOWED_ORIGINS", "http://localhost:3000").split(",") if origin.strip()]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
+    allow_origins=allowed_origins,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -62,10 +63,11 @@ def health_check():
 def compliance_status():
     """Public compliance status endpoint"""
     return {
-        "nmc_compliant": True,
-        "abdm_integrated": True,
-        "data_localization": "India (Mumbai Region)",
-        "encryption": "AES-256-GCM",
+        "nmc_compliant": False,
+        "abdm_integrated": False,
+        "mode": "sandbox_demo",
+        "data_localization": "Deployment configured for India (Mumbai Region)",
+        "encryption": "Provided by HTTPS and configured storage provider",
         "last_audit": datetime.utcnow().isoformat(),
         "certifications": ["ISO27001_In_Progress"]
     }
