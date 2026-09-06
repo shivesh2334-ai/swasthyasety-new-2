@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+const withNextIntl = require('next-intl/plugin')('./src/i18n.ts');
 const nextConfig = {
   output: 'standalone',
   images: {
@@ -13,11 +14,6 @@ const nextConfig = {
       },
     ];
   },
-  i18n: {
-    locales: ['en', 'hi'],
-    defaultLocale: 'en',
-    localeDetection: true,
-  },
 };
 
-module.exports = nextConfig;
+module.exports = withNextIntl(nextConfig);
