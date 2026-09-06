@@ -14,7 +14,7 @@ const features = [
   {
     icon: Shield,
     title: 'Secure & Private',
-    description: 'End-to-end encrypted consultations. Your data never leaves India.'
+    description: 'Secure transport and India-region deployment controls.'
   }
 ]
 
